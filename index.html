@@ -3,102 +3,165 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Télécharger DevDock</title>
-    <meta name="description" content="DevDock — hub local pour scanner, lancer et gérer vos projets de développement. Téléchargement macOS, Windows et Linux." />
+    <title>DevDock — Télécharger</title>
+    <meta name="description" content="DevDock — le hub local pour scanner, lancer et gérer tous vos projets de développement. macOS, Windows et Linux." />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <meta property="og:title" content="DevDock" />
+    <meta property="og:description" content="Scannez, lancez et gérez tous vos projets de développement, en local." />
+    <meta property="og:image" content="logo.png" />
     <style>
       :root {
-        --bg: #0b0d12;
-        --card: #14171f;
-        --fg: #f5f7fa;
-        --muted: #9aa4b2;
+        --bg: #070a12;
+        --card: rgba(22, 27, 38, 0.7);
+        --fg: #eef2f8;
+        --muted: #93a0b4;
         --primary: #3b82f6;
-        --primary-2: #0ea5e9;
-        --border: #232833;
+        --sky: #38bdf8;
+        --border: rgba(255, 255, 255, 0.08);
       }
       * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
       body {
         margin: 0;
-        min-height: 100vh;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
         color: var(--fg);
+        background: var(--bg);
+        overflow-x: hidden;
+      }
+      .bg {
+        position: fixed; inset: 0; z-index: -1;
         background:
-          radial-gradient(1200px 600px at 50% -10%, rgba(59,130,246,0.25), transparent 60%),
+          radial-gradient(900px 500px at 15% -5%, rgba(56, 189, 248, 0.22), transparent 60%),
+          radial-gradient(900px 600px at 85% 0%, rgba(59, 130, 246, 0.20), transparent 55%),
+          radial-gradient(700px 500px at 50% 110%, rgba(16, 185, 129, 0.12), transparent 60%),
           var(--bg);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
       }
-      .wrap { width: 100%; max-width: 640px; text-align: center; }
+      .bg::after {
+        content: ""; position: absolute; inset: 0;
+        background-image:
+          radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 0 2px, transparent 3px),
+          radial-gradient(circle at 70% 60%, rgba(255,255,255,0.04) 0 3px, transparent 4px),
+          radial-gradient(circle at 40% 80%, rgba(255,255,255,0.04) 0 2px, transparent 3px);
+        background-size: 180px 180px, 240px 240px, 200px 200px;
+      }
+      .container { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+      header { text-align: center; padding: 72px 0 40px; }
       .logo {
-        width: 76px; height: 76px; border-radius: 18px; margin: 0 auto 18px;
-        background: linear-gradient(180deg, #6fd2ff, #1aa3e8 50%, #0d8ad0 52%, #2bb3f0);
-        box-shadow: 0 10px 30px -8px rgba(13,138,208,0.6), inset 0 1px 0 rgba(255,255,255,0.7);
-        display: flex; align-items: center; justify-content: center;
-        font-size: 38px;
+        width: 116px; height: 116px; margin: 0 auto 22px; display: block;
+        border-radius: 26px;
+        filter: drop-shadow(0 18px 40px rgba(13, 138, 208, 0.45));
+        animation: float 6s ease-in-out infinite;
       }
+      @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
       h1 {
-        font-size: 2.4rem; margin: 0 0 6px;
-        background: linear-gradient(90deg, #7dd3fc, #3b82f6 60%, #1d4ed8);
+        font-size: clamp(2.6rem, 6vw, 4rem); margin: 0 0 10px; letter-spacing: -0.02em; font-weight: 800;
+        background: linear-gradient(90deg, #7dd3fc 0%, #3b82f6 55%, #2563eb 100%);
         -webkit-background-clip: text; background-clip: text; color: transparent;
       }
-      .tagline { color: var(--muted); margin: 0 0 28px; font-size: 1.05rem; }
-      .card {
-        background: var(--card); border: 1px solid var(--border);
-        border-radius: 16px; padding: 28px; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6);
+      .tagline { color: var(--muted); font-size: clamp(1rem, 2.5vw, 1.2rem); margin: 0 auto 34px; max-width: 540px; }
+
+      .download {
+        max-width: 460px; margin: 0 auto; padding: 26px;
+        background: var(--card); backdrop-filter: blur(18px) saturate(1.2);
+        border: 1px solid var(--border); border-radius: 20px;
+        box-shadow: 0 30px 60px -30px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.06);
       }
-      .detected { color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; }
+      .detected { color: var(--muted); font-size: 0.92rem; margin: 0 0 16px; }
+      .detected strong { color: var(--fg); }
       .btn {
-        display: inline-flex; align-items: center; gap: 10px; justify-content: center;
-        width: 100%; padding: 15px 22px; border-radius: 12px; border: none; cursor: pointer;
-        font-size: 1.05rem; font-weight: 600; text-decoration: none; color: #04121f;
-        background: linear-gradient(180deg, #7fd8ff, #29a8ec 48%, #0f8ed4 50%, #34b6f2);
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 6px 18px rgba(13,138,208,0.4);
-        transition: filter 0.15s, transform 0.05s;
+        display: flex; align-items: center; justify-content: center; gap: 10px;
+        width: 100%; padding: 16px 22px; border-radius: 14px; border: none; cursor: pointer;
+        font-size: 1.08rem; font-weight: 700; text-decoration: none; color: #04121f;
+        background: linear-gradient(180deg, #7fd8ff 0%, #29a8ec 48%, #0f8ed4 50%, #34b6f2 100%);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.85), 0 10px 24px rgba(13,138,208,0.45);
+        transition: filter 0.15s, transform 0.06s;
       }
-      .btn:hover { filter: brightness(1.06); }
+      .btn:hover { filter: brightness(1.07); }
       .btn:active { transform: translateY(1px); }
-      .ver { color: var(--muted); font-size: 0.85rem; margin-top: 12px; }
-      .others { margin-top: 26px; text-align: left; }
-      .others h2 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 10px; }
-      .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-      @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+      .ver { color: var(--muted); font-size: 0.84rem; margin: 14px 0 0; }
+      .ver a { color: var(--sky); text-decoration: none; }
+
+      .platforms { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+      .platforms span {
+        font-size: 0.78rem; color: var(--muted);
+        border: 1px solid var(--border); border-radius: 999px; padding: 5px 12px;
+      }
+
+      .features { padding: 56px 0 20px; }
+      .features h2 {
+        text-align: center; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em;
+        color: var(--muted); margin: 0 0 26px; font-weight: 700;
+      }
+      .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+      @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+      .feature {
+        background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px;
+        backdrop-filter: blur(12px);
+      }
+      .feature .ic { font-size: 1.7rem; margin-bottom: 10px; }
+      .feature h3 { margin: 0 0 6px; font-size: 1.02rem; }
+      .feature p { margin: 0; color: var(--muted); font-size: 0.9rem; line-height: 1.5; }
+
+      .all { padding: 40px 0 10px; }
+      .all h2 {
+        text-align: center; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.12em;
+        color: var(--muted); margin: 0 0 18px; font-weight: 700;
+      }
+      .dlgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+      @media (max-width: 760px) { .dlgrid { grid-template-columns: 1fr; } }
       .pill {
         display: flex; align-items: center; justify-content: space-between; gap: 8px;
-        padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px;
-        color: var(--fg); text-decoration: none; font-size: 0.9rem; background: #0f1218;
+        padding: 13px 15px; border: 1px solid var(--border); border-radius: 12px;
+        color: var(--fg); text-decoration: none; font-size: 0.92rem;
+        background: rgba(15, 18, 24, 0.6); transition: border-color 0.15s, transform 0.06s;
       }
-      .pill:hover { border-color: var(--primary); }
-      .pill small { color: var(--muted); }
-      .note { color: var(--muted); font-size: 0.8rem; margin-top: 22px; line-height: 1.5; }
-      a { color: var(--primary-2); }
+      .pill:hover { border-color: var(--primary); transform: translateY(-1px); }
+      .pill small { color: var(--muted); font-weight: 600; }
+
+      footer { text-align: center; color: var(--muted); font-size: 0.82rem; padding: 44px 0 50px; line-height: 1.7; }
+      footer a { color: var(--sky); text-decoration: none; }
       .err { color: #f87171; }
     </style>
   </head>
   <body>
-    <main class="wrap">
-      <div class="logo">⚓</div>
-      <h1>DevDock</h1>
-      <p class="tagline">Scannez, lancez et gérez tous vos projets de développement, en local.</p>
+    <div class="bg"></div>
 
-      <div class="card">
+    <header class="container">
+      <img class="logo" src="logo.png" alt="DevDock" />
+      <h1>DevDock</h1>
+      <p class="tagline">Scannez, lancez et gérez tous vos projets de développement — le tout 100 % en local.</p>
+
+      <div class="download">
         <p class="detected" id="detected">Détection de votre système…</p>
         <a class="btn" id="primary" href="#" rel="noopener">Télécharger</a>
         <p class="ver" id="version"></p>
-
-        <div class="others">
-          <h2>Toutes les plateformes</h2>
-          <div class="grid" id="all"></div>
-        </div>
+        <div class="platforms"><span>macOS</span><span>Windows</span><span>Linux</span></div>
       </div>
+    </header>
 
-      <p class="note">
-        Application non signée : au premier lancement, faites <strong>clic droit → Ouvrir</strong> sur macOS,
-        ou « Exécuter quand même » sur Windows.<br />
-        Code source (privé) · Téléchargements publics ·
-        <a href="https://github.com/EReale29/devdock-releases/releases" target="_blank" rel="noopener">toutes les versions</a>
-      </p>
-    </main>
+    <section class="features container">
+      <h2>Pensé pour les développeurs</h2>
+      <div class="grid">
+        <div class="feature"><div class="ic">🔍</div><h3>Scanner intelligent</h3><p>Détecte automatiquement vos projets (Node, Python, PHP, Rust, Docker…) et leurs commandes.</p></div>
+        <div class="feature"><div class="ic">⚡</div><h3>Lancer en 1 clic</h3><p>Installez les dépendances, démarrez, testez, ouvrez dans VS Code ou le terminal.</p></div>
+        <div class="feature"><div class="ic">📖</div><h3>Docs intégrées</h3><p>Lisez tous les fichiers Markdown de vos projets directement dans l'application.</p></div>
+        <div class="feature"><div class="ic">☁️</div><h3>Import Git</h3><p>Clonez vos dépôts GitHub, GitLab et autres, et gérez plusieurs comptes.</p></div>
+        <div class="feature"><div class="ic">🎨</div><h3>Thèmes sur-mesure</h3><p>Clair, sombre, Frutiger Aero ou vos propres thèmes exportables et importables.</p></div>
+        <div class="feature"><div class="ic">🔒</div><h3>100 % local</h3><p>Aucune télémétrie. Vos projets et données ne quittent jamais votre machine.</p></div>
+      </div>
+    </section>
+
+    <section class="all container">
+      <h2>Toutes les plateformes</h2>
+      <div class="dlgrid" id="all"></div>
+    </section>
+
+    <footer class="container">
+      Application non signée : au premier lancement, <strong>clic droit → Ouvrir</strong> (macOS) ou « Exécuter quand même » (Windows).<br />
+      <a href="versions.html">Toutes les versions</a>
+      · Fait avec DevDock
+    </footer>
 
     <script>
       const REPO = "EReale29/devdock-releases";
@@ -109,13 +172,11 @@
         const platform = (uaData && uaData.platform) || navigator.platform || "";
         if (/mac/i.test(platform) || /Mac OS X/i.test(ua)) return "mac";
         if (/win/i.test(platform) || /Windows/i.test(ua)) return "windows";
-        if (/linux|x11|ubuntu|fedora/i.test(platform) || /Linux/i.test(ua)) return "linux";
+        if (/linux|x11|ubuntu|fedora|cros/i.test(platform) || /Linux/i.test(ua)) return "linux";
         return "unknown";
       }
-
       const OS_LABELS = { mac: "macOS", windows: "Windows", linux: "Linux", unknown: "votre système" };
 
-      // Choisit l'asset principal pour un OS donné parmi la liste de la release.
       function pickPrimary(assets, os) {
         const by = (re) => assets.find((a) => re.test(a.name));
         if (os === "mac") return by(/\.dmg$/i);
@@ -123,13 +184,11 @@
         if (os === "linux") return by(/\.AppImage$/i) || by(/\.deb$/i) || by(/\.rpm$/i);
         return null;
       }
-
-      // Catégorise tous les installateurs (ignore signatures et latest.json).
       function categorize(assets) {
         const out = [];
-        const add = (re, label, os) => {
+        const add = (re, label, tag) => {
           const a = assets.find((x) => re.test(x.name));
-          if (a) out.push({ os, label, name: a.name, url: a.browser_download_url });
+          if (a) out.push({ tag, label, url: a.browser_download_url });
         };
         add(/\.dmg$/i, "macOS — Apple Silicon", ".dmg");
         add(/-setup\.exe$/i, "Windows — Installateur", ".exe");
@@ -146,44 +205,35 @@
         const versionEl = document.getElementById("version");
         const allEl = document.getElementById("all");
         const os = detectOS();
-
         try {
           const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, {
             headers: { Accept: "application/vnd.github+json" },
           });
-          if (!res.ok) throw new Error("release introuvable");
+          if (!res.ok) throw new Error("no release");
           const data = await res.json();
-          const assets = (data.assets || []).filter(
-            (a) => !/\.sig$/i.test(a.name) && a.name !== "latest.json",
-          );
+          const assets = (data.assets || []).filter((a) => !/\.sig$/i.test(a.name) && a.name !== "latest.json");
 
-          versionEl.textContent = `Version ${data.tag_name || data.name || ""}`;
+          versionEl.innerHTML = `Version ${data.tag_name || ""} · <a href="versions.html">toutes les versions</a>`;
 
           const primary = pickPrimary(assets, os);
           if (primary) {
-            detectedEl.innerHTML = `Détecté : <strong>${OS_LABELS[os]}</strong>`;
-            primaryEl.textContent = `⬇  Télécharger pour ${OS_LABELS[os]}`;
+            detectedEl.innerHTML = `Détecté&nbsp;: <strong>${OS_LABELS[os]}</strong>`;
+            primaryEl.innerHTML = `⬇&nbsp;&nbsp;Télécharger pour ${OS_LABELS[os]}`;
             primaryEl.href = primary.browser_download_url;
           } else {
-            detectedEl.innerHTML = os === "mac"
-              ? `Détecté : <strong>macOS</strong> — choisissez ci-dessous`
-              : `Système non détecté automatiquement — choisissez ci-dessous :`;
+            detectedEl.innerHTML = `Choisissez votre plateforme ci-dessous&nbsp;:`;
             primaryEl.style.display = "none";
           }
 
           allEl.innerHTML = "";
           for (const item of categorize(assets)) {
             const a = document.createElement("a");
-            a.className = "pill";
-            a.href = item.url;
-            a.rel = "noopener";
-            a.innerHTML = `<span>${item.label}</span><small>${item.os}</small>`;
+            a.className = "pill"; a.href = item.url; a.rel = "noopener";
+            a.innerHTML = `<span>${item.label}</span><small>${item.tag}</small>`;
             allEl.appendChild(a);
           }
         } catch (e) {
-          detectedEl.innerHTML =
-            `<span class="err">Impossible de charger la dernière version.</span> ` +
-            `Voir <a href="https://github.com/${REPO}/releases">les releases</a>.`;
+          detectedEl.innerHTML = `<span class="err">Impossible de charger la dernière version.</span> Voir <a href="https://github.com/${REPO}/releases">les releases</a>.`;
           primaryEl.style.display = "none";
         }
       }
